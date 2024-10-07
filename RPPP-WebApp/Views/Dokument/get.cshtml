@@ -1,0 +1,39 @@
+@model DokumentViewModel
+
+@{
+    int sort = ViewData["Sort"] != null ? (int)ViewData["Sort"] : 1;
+    bool ascending = ViewData["Ascending"] != null ? (bool)ViewData["Ascending"] : true;
+    int page = ViewData["Page"] != null ? (int)ViewData["Page"] : 1;
+}
+
+
+<tr hx-target="this" hx-swap="outerHTML">
+    <td class="text-left">@Model.IdDoc</td>
+    <td class="text-left">@Model.NazivDokument</td>
+    <td class="text-left">@Model.NazivDatoteke</td>
+    <td class="text-left">@Model.IdVrstaNavigation.NazivVrstaDoc</td>
+    <td class="text-left">@Model.IdProjektNavigation.NazivProjekt</td>
+    <td>
+        <a href="@Url.Action("OpenInEditor", "Dokument", new { 
+            id = Model.IdDoc, 
+            sort = sort, 
+            ascending = ascending,
+            _page = ViewData["_page"], 
+            isEdit = true })">
+            📝
+        </a>
+    </td>
+    <td class="text-center"> 
+        <a class="btn btn-sm d-flex justify-content-center"
+           href="@Url.Action(nameof(DokumentController.Edit), new {
+             id = Model.IdDoc, page , sort, ascending})"
+           title="Ažuriraj"><i class="fas fa-edit"></i>✏️</a>
+    </td>
+    <td class="text-center"> 
+        <a class="btn btn-sm btn-danger d-flex justify-content-center"
+           hx-confirm="Obrisati projekt?"
+           hx-delete="@Url.Action(nameof(DokumentController.Delete), new { id = Model.IdDoc })"
+           title="Obriši">
+            <i class="fas fa-trash-alt">🗑️</i>
+    </td>
+</tr>

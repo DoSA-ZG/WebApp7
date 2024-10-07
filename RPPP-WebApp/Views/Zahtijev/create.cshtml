@@ -1,0 +1,39 @@
+@model Zahtijev
+
+@{
+  ViewBag.Title = "Novi zahtijev";
+}
+
+<h2>Unos novog zahtijeva</h2>
+
+<form asp-action="Create" method="post">
+  <div asp-validation-summary="All"></div>
+  <div class="mb-3">
+    <label asp-for="OpisZahtijev" class="form-label"></label>
+    <input asp-for="OpisZahtijev" class="form-control" />
+        <div class="form-text"><span asp-validation-for="OpisZahtijev" class="text-danger"></span></div>
+  </div>
+  <div class="mb-3">
+    <label asp-for="Prioritet" class="form-label"></label>
+    <input asp-for="Prioritet" class="form-control" />
+        <div class="form-text"><span asp-validation-for="Prioritet" class="text-danger"></span></div>
+  </div>
+  <div class="mb-3">
+    <label asp-for="IdVrstaZah" class="form-label"></label>
+    <select class="form-control" asp-for="IdVrstaZah" asp-items="ViewBag.IdVrstaZah">
+      <option disabled selected value="">Odaberite vrstu zahtijeva</option>
+    </select>
+        <div class="form-text"><span asp-validation-for="IdVrstaZah" class="text-danger"></span></div>
+  </div>
+<div class="mb-3">
+    <label asp-for="IdSuradnik" class="form-label"></label>
+    <select class="form-control" asp-for="IdSuradnik" asp-items="ViewBag.ImeSuradnika">
+        <option disabled selected value="">Odaberite suradnika</option>
+    </select>
+    <div class="form-text"><span asp-validation-for="IdSuradnik" class="text-danger"></span></div>
+</div>
+  <div class="text-center">
+    <button class="btn btn-primary" type="submit">Dodaj</button>
+    <a asp-action="Index" class="btn btn-default">Odustani</a>
+  </div>
+</form>

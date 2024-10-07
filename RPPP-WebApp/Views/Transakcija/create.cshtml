@@ -1,0 +1,63 @@
+﻿@model Transakcija
+
+@{
+    ViewBag.Title = "Nova transakcija";
+}
+
+<h2>Unos nove transakcije</h2>
+
+<form asp-action="Create" method="post">
+    <div asp-validation-summary="All"></div>
+
+    <div class="mb-3">
+        <label asp-for="OpisTrans" class="form-label">Opis transakcije</label>
+        <input asp-for="OpisTrans" class="form-control" />
+        <span asp-validation-for="OpisTrans" class="form-text text-danger"></span>
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="Vrijeme" class="form-label">Vrijeme</label>
+        <input asp-for="Vrijeme" class="form-control" />
+        <span asp-validation-for="Vrijeme" class="form-text text-danger"></span>
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="Iznos" class="form-label">Iznos</label>
+        <input asp-for="Iznos" class="form-control" />
+        <span asp-validation-for="Iznos" class="form-text text-danger"></span>
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="IbanKorisnikNavigation.NazivKorisnik" class="form-label">Naziv korinsika</label>
+        <input asp-for="IbanKorisnikNavigation.NazivKorisnik" class="form-control" />
+        <span asp-validation-for="IbanKorisnikNavigation.NazivKorisnik" class="form-text text-danger"></span>
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="IbanKorisnik" class="form-label">iban korinsika</label>
+        <input asp-for="IbanKorisnik" class="form-control" />
+        <span asp-validation-for="IbanKorisnik" class="form-text text-danger"></span>
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="BrRacuna" class="form-label"></label>
+        <select class="form-control" asp-for="BrRacuna" asp-items="ViewBag.VrsteDokumenata">
+            <option disabled selected value="">Odaberite vrstu dokumenta</option>
+        </select>
+        <div class="form-text"><span asp-validation-for="BrRacuna" class="text-danger"></span></div>
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="IdVrstaTrans" class="form-label">Odaberite transakciju</label>
+        <select class="form-control" asp-for="IdVrstaTrans" asp-items="ViewBag.IdVrstaTrans">
+            <option disabled selected value="">Odaberite transakciju</option>
+        </select>
+        <span asp-validation-for="IdVrstaTrans" class="form-text text-danger"></span>
+    </div>
+
+    <div class="text-center">
+        <button class="btn btn-primary" type="submit">Dodaj</button>
+        <a asp-action="Index" class="btn btn-default">Odustani</a>
+    </div>
+</form>
+

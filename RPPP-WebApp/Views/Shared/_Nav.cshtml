@@ -1,0 +1,62 @@
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+  <div class="container-fluid">
+    <a class="navbar-brand" asp-action="Index" asp-controller="Home">RPPP Homework - Group 07</a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+        <li class="nav-item">
+          <a class="nav-link" asp-action="Index" asp-controller="Home">Home</a>
+        </li>
+        <li class="nav-item d-inline">
+            <a class="nav-link" asp-controller="ViewLog" asp-action="Index">
+                Prikaz logova
+            </a>
+        </li>
+        <li class="nav-item dropdown d-inline">
+          <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+            Student 31
+          </a>
+          <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+            <li><a class="dropdown-item" asp-controller="Projekt" asp-action="Index">Projekti (STP)</a></li>
+            <li><a class="dropdown-item" asp-controller="Dokument" asp-action="Index">Dokumenti (JTP)</a></li>
+            <li><hr class="dropdown-divider"></li>
+            <li><a class="dropdown-item" asp-controller="Projekt" asp-action="Show" asp-route-id = "1">MasterDetail (STP)</a></li>
+          </ul>
+        </li> 
+        <li class="nav-item dropdown d-inline">
+          <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+            Student 26
+          </a>
+          <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+            <li><a class="dropdown-item" asp-controller="Osoba" asp-action="Index">Osobe (JTP)</a></li>
+            <li><a class="dropdown-item" asp-controller="Partner" asp-action="Index">Partneri (STP)</a></li>
+        </ul>
+        </li>  
+        <li class="nav-item dropdown d-inline">
+          <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+            Student 46
+          </a>
+          <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+            <li><a class="dropdown-item" asp-controller="Kartica" asp-action="Index">Kartice (STP)</a></li>
+            <li><a class="dropdown-item" asp-controller="Transakcija" asp-action="Index">Transakcije (JTP)</a></li>
+            <li><hr class="dropdown-divider"></li>
+            <li><a class="dropdown-item" href="#">Showcase 3</a></li>
+          </ul>
+        </li>  
+        <li class="nav-item dropdown d-inline">
+          <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+            Student 22
+          </a>
+          <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+            <li><a class="dropdown-item" asp-controller="Zadatak" asp-action="Index">Zadaci (JTP)</a></li>
+            <li><a class="dropdown-item" asp-controller="Zahtijev" asp-action="Index">Zahtijevi (STP)</a></li>
+            <li><hr class="dropdown-divider"></li>
+            <li><a class="dropdown-item" href="#">Showcase 3</a></li>
+          </ul>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>

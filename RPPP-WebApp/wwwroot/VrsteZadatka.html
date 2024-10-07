@@ -1,0 +1,65 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>Pregled svih vrsta zadataka</title>
+    <link href="lib/jqueryui/themes/base/jquery-ui.min.css" rel="stylesheet" type="text/css" />
+    <link href="lib/jtable/lib/themes/lightcolor/blue/jtable.min.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+    <div class="container">
+        <div class="row">
+            Filtriraj po nazivu vrste zadatka: <input type="text" id="filter" />
+            <button id="btnFilter">Filtriraj</button>
+        </div>
+        <div class="row">
+            <div class="col-sm-12" id="VrstaZadatak">
+
+            </div>
+        </div>
+    </div>
+
+    <script type="text/javascript" src="lib/jquery/jquery.min.js"></script>
+    <script type="text/javascript" src="lib/jqueryui/jquery-ui.min.js"></script>
+    <script type="text/javascript" src="lib/jtable/lib/jquery.jtable.min.js"></script>
+    <script type="text/javascript" src="lib/jtable/lib/localization/jquery.jtable.hr.js"></script>
+
+    <script type="text/javascript">
+    $(document).ready(function () {
+      $('#VrstaZadatak').jtable({
+        title: 'Popis vrsta zadataka',
+        paging: true,
+        pageSize: 10,
+        sorting: true,
+          defaultSorting: 'IdVrstaZad DESC',
+        actions: {
+            listAction: 'jtable/vrstaZadatak/getall',
+            createAction: 'jtable/vrstaZadatak/create',
+            updateAction: 'jtable/vrstaZadatak/update',
+            deleteAction: 'jtable/vrstaZadatak/delete'
+        },
+        fields: {
+          IdVrstaZadatak: {
+            key: true,
+            list: false
+          },
+          NazivVrstaZadatak: {
+            title: 'Naziv vrste zadatka',
+            width: '20%'
+          }
+        }
+      });
+
+      $("#VrstaZadatak").jtable('load');
+
+      $("#btnFilter").click(function (event) {
+        event.preventDefault();
+          $("#VrstaZadatak").jtable('load', {
+          search: $('#filter').val()
+        });
+      });
+    });
+    </script>
+
+</body>
+</html>

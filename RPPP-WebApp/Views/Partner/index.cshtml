@@ -1,0 +1,98 @@
+@model RPPP_WebApp.ViewModels.PartneriViewModel
+
+<h1>Popis partnera</h1>
+
+<a asp-action="Create">Unos novog partnera</a>
+
+<pager page-info="@Model.PagingInfo" page-action="Index" page-title="Unesite željenu stranicu"
+     class="float-end">
+</pager>
+
+<table class="table">
+    <thead>
+        <tr>
+            @{
+                string[] nazivi = { "ID partnera", "Ime partnera", "Broj zahtijeva"};
+                for (int i = 1; i <= nazivi.Length; i++)
+                {
+                    <th>
+                        <a asp-route-sort="@i"
+                           asp-route-page="@Model.PagingInfo.CurrentPage"
+                           asp-route-ascending="@(Model.PagingInfo.Sort == i ? !Model.PagingInfo.Ascending : true)">
+                           @nazivi[i - 1]
+                        </a>
+                    </th>
+                }
+            }
+            <th class="text-center">Edit</th>
+            <th class="text-center">Remove</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var partner in Model.Partneri)
+        {
+            <partial name="Get" model="partner" asp-route-id="@partner.IdSuradnik"
+                asp-route-page="@Model.PagingInfo.CurrentPage" 
+                asp-route-sort="@Model.PagingInfo.Sort" 
+                asp-route-ascending="@Model.PagingInfo.Ascending" />
+        }
+    </tbody>
+</table>
+
+<div class="d-flex m-3">
+    <a class="btn btn-sm btn-primary mx-2"
+       asp-controller="PartnerReport"
+       asp-action="Partneri"
+       title="generatePDF">
+        <i class="fas fa-sync-alt"></i>Generate simple PDF
+    </a>
+    <a class="btn btn-sm btn-primary mx-2"
+       asp-controller="PartnerMasterDetailReport"
+       asp-action="PartneriPdf"
+       title="excel">
+        <i class="fas fa-sync-alt"></i>Generate MD PDF
+    </a>
+    <a class="btn btn-sm btn-success mx-2"
+       asp-controller="PartnerReport"
+       asp-action="PartneriExcel"
+       title="excel">
+        <i class="fas fa-sync-alt"></i>Generate simple Excel
+    </a>
+    <a class="btn btn-sm btn-success mx-2"
+       asp-controller="PartnerMasterDetailReport"
+       asp-action="PartneriExcel"
+       title="excel">
+        <i class="fas fa-sync-alt"></i>Generate MD Excel
+    </a>
+</div>
+
+<hr>
+
+<div id="upload row">
+    <form class="form-inline" asp-controller="Import" asp-action="ImportExcel" method="post" enctype="multipart/form-data">
+        <div class="row">
+            <div class="form-group col-xs-6 col-md-3 ">
+                <label for="importFile">Select Excel File:</label>
+                <input type="file" class="form-control" id="importFile" accept=".xlsx, .xls" name="importFile" data-save="">
+            </div>
+            <div class="form-group">
+                <label for="submit"></label>
+                <button type="submit" class="btn btn-primary">Import Data</button>
+            </div>
+        </div>
+    </form>
+</div>
+
+@section scripts {
+  <script src="~/lib/htmx/htmx.min.js" asp-append-version="true"></script> 
+  <partial name="IncludeValidation" />
+
+  <script>
+    document.body.addEventListener("showMessage", function(evt){     
+       toastr[evt.detail.messageType](evt.detail.message);
+    }) 
+    document.body.addEventListener("htmx:responseError", function (evt) {
+        toastr["error"](evt.detail.error);
+    })
+  </script>
+}

@@ -1,0 +1,33 @@
+@model PartnerViewModel
+
+<tr hx-target="this" hx-swap="outerHTML">
+    <td class="text-left">
+        <a asp-action="Show" 
+           asp-route-id="@Model.IdSuradnik"
+           asp-route-page="@Context.Request.Query["page"]" 
+           asp-route-sort="@Context.Request.Query["sort"]" 
+           asp-route-ascending="@Context.Request.Query["ascending"]">
+           @Model.IdSuradnik
+        </a></td>
+    <td class="text-left">@Model.Partner.Ime</td>
+    <td class="text-left">@Model.BrZahtijeva</td>
+    <td class="text-center"> 
+        <a asp-action="Edit"
+           asp-route-id="@Model.IdSuradnik"
+           asp-route-page="@ViewBag.CurrentPage"
+           asp-route-sort="@ViewBag.Sort"
+           asp-route-ascending="@ViewBag.Ascending" class="btn btn-sm" title="Ažuriraj">
+            <i class="fas fa-edit"></i>✏️
+        </a>
+    </td>
+    <td class="text-center"> 
+        <form asp-action="Delete" method="post"
+              asp-route-id="@Model.IdSuradnik"
+              asp-route-page="@ViewBag.CurrentPage"
+              asp-route-sort="@ViewBag.Sort"
+              asp-route-ascending="@ViewBag.Ascending">
+            <input type="hidden" name="Id" value="@Model.IdSuradnik" />
+            <button type="submit" class="btn btn-sm btn-danger delete-partner" title="Obriši"><i class="fas fa-trash-alt"></i></button>
+        </form>
+    </td>
+</tr>

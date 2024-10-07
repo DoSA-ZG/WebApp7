@@ -1,0 +1,31 @@
+﻿@model TransakcijaViewModel
+
+<tr hx-target="this" hx-swap="outerHTML">
+    <td class="text-left">@Model.IdTransakcija</td>
+    <td class="text-left">@Model.Iznos</td>
+    <td class="text-left">@Model.OpisTrans</td>
+    <td class="text-left">@Model.Vrijeme</td>
+    <td class="text-left">@Model.BrRacuna</td>
+    <td class="text-left">@Model.IbanKorisnik</td>
+    <td class="text-left">@Model.NazivKorisnik</td>
+    <td class="text-left">@Model.NazivVrstaTransakcija</td>
+    <td class="text-center">
+        <a asp-action="Edit"
+           asp-route-id="@Model.IdTransakcija"
+           asp-route-page="@ViewBag.PagingInfo.CurrentPage"
+           asp-route-sort="@ViewBag.PagingInfo.Sort"
+           asp-route-ascending="@ViewBag.PagingInfo.Ascending" class="btn btn-sm" title="Ažuriraj">
+            <i class="fas fa-edit"></i>✏️
+        </a>
+    </td>
+    <td class="text-center">
+        <form asp-action="Delete" method="post"
+              asp-route-id="@Model.IdTransakcija"
+              asp-route-page="@ViewBag.PagingInfo.CurrentPage"
+              asp-route-sort="@ViewBag.PagingInfo.Sort"
+              asp-route-ascending="@ViewBag.PagingInfo.Ascending">
+            <input type="hidden" name="Id" value="@Model.IdTransakcija" />
+            <button type="submit" class="btn btn-sm btn-danger delete" title="Obriši"><i class="fas fa-trash-alt"></i></button>
+        </form>
+    </td>
+</tr>

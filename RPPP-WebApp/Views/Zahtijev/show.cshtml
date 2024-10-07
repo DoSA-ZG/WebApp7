@@ -1,0 +1,140 @@
+﻿@model ZahtijevViewModel
+@{
+    ViewBag.Title = @Model.OpisZahtijev;
+}
+
+<div class="container">
+    <div class="row text-left">
+        <div class="col-sm-12">
+            <a class="btn btn-sm btn-primary mb-3" asp-action="Index" asp-controller="Zahtijev" 
+                   asp-route-page="@ViewBag.Page"
+                   asp-route-sort="@ViewBag.Sort"
+                   asp-route-ascending="@ViewBag.Ascending">
+                <i class="fas fa-arrow-left"></i> Go back
+
+
+            </a>
+        </div>
+    </div>
+    <div class="row text-center">
+        <div class="col-sm-2">
+            @if (ViewBag.Previous != null)
+            {
+                <a class="btn btn-primary"
+                   asp-action="Show"
+                   asp-route-page="@ViewBag.Page"
+                   asp-route-sort="@ViewBag.Sort"
+                   asp-route-ascending="@ViewBag.Ascending"
+                   asp-route-position="@(ViewBag.Position - 1)"
+                   asp-route-id="@ViewBag.Previous">
+                    <i class="fas fa-step-backward">Previous</i>
+                </a>
+            }
+        </div>
+        <div class="col-sm-8">
+            <h4>
+                @Model.OpisZahtijev
+            </h4>
+        </div>
+        <div class="col-sm-2">
+            @if (ViewBag.Next != null)
+            {
+                <a class="btn btn-primary" asp-action="Show"
+                   asp-route-page="@ViewBag.Page"
+                   asp-route-sort="@ViewBag.Sort"
+                   asp-route-ascending="@ViewBag.Ascending"
+                   asp-route-position="@(ViewBag.Position + 1)"
+                   asp-route-id="@ViewBag.Next">
+                    <i class="fas fa-step-forward">Next</i>
+                </a>
+            }
+        </div>
+    </div>
+
+    <div class="row justify-content-sm-center">
+        <div class="col-sm-2">
+            Opis zahtijeva:
+        </div>
+        <div class="col-sm-6">
+            @Model.OpisZahtijev
+        </div>
+    </div>
+
+    <div class="row justify-content-sm-center">
+        <div class="col-sm-2">
+            Prioritet:
+        </div>
+        <div class="col-sm-6">
+            @Model.Prioritet
+        </div>
+    </div>
+
+    <div class="row justify-content-sm-center">
+        <div class="col-sm-2">
+            Vrsta zahtijeva:
+        </div>
+        <div class="col-sm-6">
+            @Model.NazivVrsteZahtijeva
+        </div>
+    </div>
+
+    <div class="row justify-content-sm-center">
+        <div class="col-sm-2">
+            Suradnik:
+        </div>
+        <div class="col-sm-6">
+            @Model.NazivSuradnika
+        </div>
+    </div>
+
+    <div class="row">
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    @{
+                        string[] imena = { "Status", "Trajanje", "Vrsta zadatka" };
+                        for (int i = 0; i < imena.Length; i++)
+                        {
+                            <th class="text-center">
+                                @imena[i]
+                            </th>
+                        }
+                    }
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var zadatak in Model.Zadataks)
+                {
+                    <tr>
+                        <td class="text-center col-sm-4">
+                            @zadatak.Status
+                        </td>
+                        <td class="text-center col-sm-4">
+                            @zadatak.Trajanje
+                        </td>
+                        <td class="text-center col-sm-4">
+                            @zadatak.NazivVrstaZad
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+    <a class="btn btn-sm btn-primary mx-2"
+       asp-route-id="@Model.IdZah"
+       asp-controller="Report"
+       asp-action="ZahtjeviMasterDetailExcel"
+       title="excel">
+        <i class="fas fa-sync-alt"></i>Generate Excel
+    </a>
+    <a class="btn btn-sm btn-primary mx-2"
+       asp-route-id="@Model.IdZah"
+       asp-controller="ZahtijevMasterDetailReport"
+       asp-action="Zahtjevi"
+       title="excel">
+        <i class="fas fa-sync-alt"></i>Generate Pdf
+
+    </a>
+</div>
+

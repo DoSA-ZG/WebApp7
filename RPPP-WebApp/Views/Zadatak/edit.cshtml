@@ -1,0 +1,53 @@
+﻿@model Zadatak
+
+<h2>Izmjena podatka</h2>
+
+<hr />
+
+<form asp-action="Edit" method="POST"
+      asp-route-sort="@ViewBag.PagingInfo.Sort"
+      asp-route-page="@ViewBag.PagingInfo.CurrentPage"
+      asp-route-ascending="@ViewBag.PagingInfo.Ascending">
+    <div asp-validation-summary="All"></div>
+
+    <div class="mb-3">
+        <label asp-for="Status" class="form-label">Status</label>
+        <input asp-for="Status" class="form-control" />
+        <span asp-validation-for="Status" class="form-text text-danger"></span>
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="Trajanje" class="form-label">Trajanje</label>
+        <input asp-for="Trajanje" class="form-control" />
+        <span asp-validation-for="Trajanje" class="form-text text-danger"></span>
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="IdZah" class="form-label">Odaberite vrstu zahtijeva</label>
+        <select class="form-control" asp-for="IdZah" asp-items="ViewBag.IdZah">
+            <option disabled selected value="">Odaberite vrstu zahtijeva</option>
+        </select>
+        <span asp-validation-for="IdZah" class="form-text text-danger"></span>
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="IdVrstaZad" class="form-label">Odaberite suradnika</label>
+        <select class="form-control" asp-for="IdVrstaZad" asp-items="ViewBag.IdVrstaZad">
+            <option disabled selected value="">Odaberite suradnika</option>
+        </select>
+        <span asp-validation-for="IdVrstaZad" class="form-text text-danger"></span>
+    </div>
+
+    <div class="text-center">
+        <button class="btn btn-primary" type="submit">Spremi</button>
+        <a asp-action="Index"
+           asp-route-sort="@ViewBag.PagingInfo.Sort"
+           asp-route-page="@ViewBag.PagingInfo.CurrentPage"
+           asp-route-ascending="@ViewBag.PagingInfo.Ascending"
+           class="btn btn-secondary">Odustani</a>
+    </div>
+</form>
+
+@section scripts {
+        <partial name="IncludeValidation" />
+}

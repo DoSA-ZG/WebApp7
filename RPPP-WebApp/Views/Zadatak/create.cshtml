@@ -1,0 +1,45 @@
+﻿@model Zadatak
+
+@{
+    ViewBag.Title = "Novi zadatak";
+}
+
+<h2>Unos novog zadatka</h2>
+
+<form asp-action="Create" method="post">
+    <div asp-validation-summary="All"></div>
+
+    <div class="mb-3">
+        <label asp-for="Status" class="form-label">Status</label>
+        <input asp-for="Status" class="form-control" />
+        <span asp-validation-for="Status" class="form-text text-danger"></span>
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="Trajanje" class="form-label">Trajanje</label>
+        <input asp-for="Trajanje" class="form-control" />
+        <span asp-validation-for="Trajanje" class="form-text text-danger"></span>
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="IdZah" class="form-label">Odaberite zahtijev</label>
+        <select class="form-control" asp-for="IdZah" asp-items="ViewBag.IdZah">
+            <option disabled selected value="">Odaberite zahtijev</option>
+        </select>
+        <span asp-validation-for="IdZah" class="form-text text-danger"></span>
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="IdVrstaZad" class="form-label">Odaberite vrstu zadatka</label>
+        <select class="form-control" asp-for="IdVrstaZad" asp-items="ViewBag.IdVrstaZad">
+            <option disabled selected value="">Odaberite vrstu zadatka</option>
+        </select>
+        <span asp-validation-for="IdVrstaZad" class="form-text text-danger"></span>
+    </div>
+
+    <div class="text-center">
+        <button class="btn btn-primary" type="submit">Dodaj</button>
+        <a asp-action="Index" class="btn btn-default">Odustani</a>
+    </div>
+</form>
+

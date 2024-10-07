@@ -1,0 +1,27 @@
+﻿@model ZadatakViewModel
+
+<tr hx-target="this" hx-swap="outerHTML">
+    <td class="text-left">@Model.Status</td>
+    <td class="text-left">@Model.Trajanje</td>
+    <td class="text-left">@Model.OpisZahtijev</td>
+    <td class="text-left">@Model.NazivVrstaZad</td>
+    <td class="text-center"> 
+        <a asp-action="Edit"
+           asp-route-id="@Model.IdZad"
+           asp-route-page="@ViewBag.PagingInfo.CurrentPage"
+           asp-route-sort="@ViewBag.PagingInfo.Sort"
+           asp-route-ascending="@ViewBag.PagingInfo.Ascending" class="btn btn-sm" title="Ažuriraj">
+            <i class="fas fa-edit"></i>✏️
+        </a>
+    </td>
+    <td class="text-center"> 
+        <form asp-action="Delete" method="post"
+              asp-route-id="@Model.IdZad"
+              asp-route-page="@ViewBag.PagingInfo.CurrentPage"
+              asp-route-sort="@ViewBag.PagingInfo.Sort"
+              asp-route-ascending="@ViewBag.PagingInfo.Ascending">
+            <input type="hidden" name="Id" value="@Model.IdZad" />
+            <button type="submit" class="btn btn-sm btn-danger delete" title="Obriši"><i class="fas fa-trash-alt"></i></button>
+        </form>
+    </td>
+</tr>

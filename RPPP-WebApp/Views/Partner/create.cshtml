@@ -1,0 +1,22 @@
+@model Partner
+
+@{
+  ViewBag.Title = "Novi partner";
+}
+
+<h2>Unos novog partnera</h2>
+
+<form asp-action="Create" method="post">
+  <div asp-validation-summary="All"></div>
+    <div class="mb-3">
+        <label asp-for="IdSuradnikNavigation.Ime" class="form-label"></label>
+        <select class="form-control" asp-for="IdSuradnik" asp-items="ViewBag.Osobe">
+            <option disabled selected value="">Odaberite novog partnera</option>
+        </select>
+        <div class="form-text"><span asp-validation-for="IdSuradnikNavigation.Ime" class="text-danger"></span></div>
+    </div>
+  <div class="text-center">
+    <button class="btn btn-primary" type="submit">Dodaj</button>
+    <a asp-action="Index" class="btn btn-default">Odustani</a>
+  </div>
+</form>

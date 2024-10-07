@@ -1,0 +1,41 @@
+@model Projekt
+
+@{
+  ViewBag.Title = "Novi projekt";
+}
+
+<h2>Unos novog projekta</h2>
+
+<form asp-action="Create" method="post">
+  <div asp-validation-summary="All"></div>
+  <div class="mb-3">
+    <label asp-for="NazivProjekt" class="form-label"></label>
+    <input asp-for="NazivProjekt" class="form-control" />
+    <div class="form-text"><span asp-validation-for="NazivProjekt" class="text-danger"></span></div>
+  </div>
+  <div class="mb-3">
+    <label asp-for="Kratica" class="form-label"></label>
+    <input asp-for="Kratica" class="form-control" />
+    <div class="form-text"><span asp-validation-for="Kratica" class="text-danger"></span></div>
+  </div>
+  <div class="mb-3">
+    <label asp-for="Cilj" class="form-label"></label>
+    <input asp-for="Cilj" class="form-control" />
+    <div class="form-text"><span asp-validation-for="Cilj" class="text-danger"></span></div>
+  </div>
+  <div class="mb-3">
+    <label asp-for="IdVrsteProjekta" class="form-label"></label>
+    <select class="form-control" asp-for="IdVrsteProjekta" asp-items="ViewBag.VrsteProjekta">
+      <option disabled selected value="">Odaberite vrstu projekta</option>
+    </select>
+    <div class="form-text"><span asp-validation-for="IdVrsteProjekta" class="text-danger"></span></div>
+  </div>
+  <div class="text-center">
+    <button class="btn btn-primary" type="submit">Dodaj</button>
+    <a asp-action="Index" class="btn btn-default">Odustani</a>
+  </div>
+</form>
+
+@section scripts {
+  <partial name="IncludeValidation" />
+}

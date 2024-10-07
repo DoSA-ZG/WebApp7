@@ -1,0 +1,167 @@
+﻿@model ZahtijevViewModel
+
+<h2>Izmjena zahtjeva</h2>
+
+<hr />
+
+<div class="container">
+    <form id="zahtijev_form" method="POST" asp-action="Edit"
+            asp-route-page="@ViewBag.Page"
+            asp-route-sort="@ViewBag.Sort"
+            asp-route-ascending="@ViewBag.Ascending">
+            <input type="hidden" />
+        <div asp-validation-summary="All" class="form-group row"></div>
+
+            <div class="mb-3">
+        <label asp-for="OpisZahtijev" class="form-label"></label>
+        <input asp-for="OpisZahtijev" value="@Model.OpisZahtijev" class="form-control" />
+            <div class="form-text"><span asp-validation-for="OpisZahtijev" class="text-danger"></span></div>
+      </div>
+      <div class="mb-3">
+        <label asp-for="Prioritet" class="form-label"></label>
+        <input asp-for="Prioritet" class="form-control" />
+            <div class="form-text"><span asp-validation-for="Prioritet" class="text-danger"></span></div>
+      </div>
+      <div class="mb-3">
+        <label asp-for="NazivVrsteZahtijeva" class="form-label"></label>
+        <input class="form-control" asp-for="@Model.NazivVrsteZahtijeva" type="text" data-autocomplete="VrstaZahtijev" value="@Model.NazivVrsteZahtijeva" />
+        <div class="form-text"><span asp-validation-for="NazivVrsteZahtijeva" class="text-danger"></span></div>
+      </div>
+    <div class="mb-3">
+        <label asp-for="NazivSuradnika" class="form-label"></label>
+        <input class="form-control" asp-for="@Model.NazivSuradnika" type="text" data-autocomplete="Partner" value="@Model.NazivSuradnika" />
+        <div class="form-text"><span asp-validation-for="NazivSuradnika" class="text-danger"></span></div>
+    </div>
+
+        <div class="d-flex justify-content-center m-3">
+            <button id="save" type="submit" class="btn btn-sm btn-primary save mx-2 edit-partner" title="Spremi"><i class="fas fa-save"></i>Spremi</button>
+            <a class="btn btn-sm btn-primary cancel mx-2"
+                asp-action="Edit"
+                asp-route-id="@Model.IdZah"
+                asp-route-page="@ViewBag.Page"
+                asp-route-sort="@ViewBag.Sort"
+                asp-route-ascending="@ViewBag.Ascending"
+                title="Osvježi">
+                <i class="fas fa-sync-alt"></i>Osvježi
+            </a>
+            <a class="btn btn-sm btn-primary cancel mx-2"
+                asp-action="Index"
+                asp-route-page="@ViewBag.Page"
+                asp-route-sort="@ViewBag.Sort"
+                asp-route-ascending="@ViewBag.Ascending"
+                title="Odustani">
+                <i class="fas fa-undo-alt"></i>Odustani
+            </a>
+            <a class="btn btn-sm btn-danger delete-zahtjev mx-2"
+                asp-action="Delete"
+                asp-route-id="@Model.IdZah"
+                asp-route-page="@ViewBag.Page"
+                asp-route-sort="@ViewBag.Sort"
+                asp-route-ascending="@ViewBag.Ascending"
+                title="Obriši zahtijev">
+                <input type="hidden" name="IdZah" value="@Model.IdZah" />
+                <i class="fas fa-trash-alt"></i>Obriši
+            </a>
+        </div>
+
+        <hr />
+
+        <table class="table table-sm table-striped table-hover" id="table-zadaci">
+            <thead>
+                <tr>
+                    @{
+                        string[] nazivi = { "ID zadatka", "Status zadatka", "Trajanje", "Vrsta zadatka" };
+                        for (int i = 0; i < nazivi.Length; i++)
+                        {
+                            <th class="text-center">
+                                @nazivi[i]
+                            </th>
+                        }
+                    }
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                @{
+                    foreach (var zadatak in Model.Zadataks)
+                    {  
+                        <tr>
+                            <td class="text-center">
+                                <input type="hidden" name="Zadataks.Index" value="@zadatak.IdZad" />
+                                <input type="hidden" name="Zadataks[@zadatak.IdZad].IdZad" value="@zadatak.IdZad" />
+                                <div>@zadatak.IdZad</div>
+                            </td>
+                            <td class="text-left">
+                                <input name="Zadataks[@zadatak.IdZad].Status" class="form-control" value="@zadatak.Status" />
+                                <div class="form-text"><span asp-validation-for="@zadatak.Status" class="text-danger"></span></div>
+                            </td>
+                            <td class="text-left">
+                                <input name="Zadataks[@zadatak.IdZad].Trajanje" class="form-control" value="@zadatak.Trajanje" />
+                                <div class="form-text"><span asp-validation-for="@zadatak.Trajanje" class="text-danger"></span></div>
+                            </td>
+                            <td class="text-left">
+                                <input name="Zadataks[@zadatak.IdZad].NazivVrstaZad" class="form-control" data-autocomplete="VrstaZadatak" value="@zadatak.NazivVrstaZad" />
+                                <div class="form-text"><span asp-validation-for="@zadatak.NazivVrstaZad" class="text-danger"></span></div>
+                            </td>
+                            <td>
+                                <button class="btn btn-sm btn-danger deleterow" type="submit" title="Izbaci"><i class="fa fa-minus"></i></button>
+                            </td>
+                        </tr>
+                    }
+                    <tr>
+                        <td class ="text-center">
+                            <input type="hidden" readonly="readonly" />
+                        </td>
+                        <td class="text-left">
+                            <input id="status" class="form-control" type="text" placeholder="Status" />
+                        </td>
+                        <td class="text-left">
+                            <input id="trajanje" class="form-control" type="text"  placeholder="Trajanje" />
+                        </td>
+                        <td class="text-left">
+                            <input id="vrsta-zadatak" class="form-control" type="text" data-autocomplete="VrstaZadatak" placeholder="Vrsta zadatka" />
+                        </td>
+                        <td class="text-left" colspan="3">
+                            <button id="zadatak-dodaj" class="btn btn-sm btn-secondary" title="Dodaj"><i class="fa fa-plus"></i></button>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </form>
+
+    <input type="hidden" id="zadatak-id"  value="0" />
+
+    ﻿<table id="template" style="visibility:hidden">
+        <tr>
+            <td class="text-center">
+                <input type="hidden" name="Zadataks.Index" value="--id--" />
+                <input type="hidden" name="Zadataks[--id--].IdZah" value="--id--" />
+                <div></div>
+            </td>
+            <td class="text-left">
+                <input name="Zadataks[--id--].Status" class="form-control" value="--status--" />
+            </td>
+            <td class="text-left">
+                <input name="Zadataks[--id--].Trajanje" class="form-control" data-autocomplete="Trajanje" value="--trajanje--" />
+            </td>
+            <td class="text-left">
+                <input name="Zadataks[--id--].NazivVrstaZad" class="form-control" data-autocomplete="VrstaZadatak" value="--vrsta-zadatak--" />
+            </td>
+            <td>
+                <button class="btn btn-sm btn-danger deleterow" type="submit" title="Izbaci"><i class="fa fa-minus"></i></button>
+            </td>
+        </tr>
+    </table>
+</div>
+
+@section styles {
+        <link rel="stylesheet" href="~/lib/jqueryui/themes/base/jquery-ui.css" />
+}
+
+@section scripts {
+        <partial name="IncludeValidation" />
+        <script src="~/lib/jqueryui/jquery-ui.js"></script>
+        <script src="~/js/autocomplete.js" asp-append-version="true"></script>
+        <script src="~/js/zahtjev.js" asp-append-version="true"></script>
+}

@@ -1,0 +1,143 @@
+@model PartnerViewModel
+@{
+    ViewBag.Title = Model.Partner.Ime;
+}
+
+<div class="container">
+    <div class="row text-left">
+        <div class="col-sm-12">
+            <a class="btn btn-sm btn-primary mb-3" asp-action="Index" asp-controller="Partner" 
+               asp-route-page="@ViewBag.Page"
+               asp-route-sort="@ViewBag.Sort"
+               asp-route-ascending="@ViewBag.Ascending">
+                <i class="fas fa-arrow-left"></i> Go back
+            </a>
+        </div>
+    </div>
+    <div class="row text-center">
+        <div class="col-sm-2">
+            @if (ViewBag.Previous != null)
+            {
+                    <a class="btn btn-primary"
+                       asp-action="Show"
+                       asp-route-page="@ViewBag.Page"
+                       asp-route-sort="@ViewBag.Sort"
+                       asp-route-ascending="@ViewBag.Ascending"
+                       asp-route-position="@(ViewBag.Position - 1)"
+                       asp-route-id="@ViewBag.Previous">
+                        <i class="fas fa-step-backward"></i> Previous
+                    </a>
+            }
+        </div>
+        <div class="col-sm-8">
+            <h4>@Model.Partner.Ime</h4>
+        </div>
+        <div class="col-sm-2">
+            @if (ViewBag.Next != null)
+            {
+                    <a class="btn btn-primary" asp-action="Show"
+                       asp-route-page="@ViewBag.Page"
+                       asp-route-sort="@ViewBag.Sort"
+                       asp-route-ascending="@ViewBag.Ascending"
+                       asp-route-position="@(ViewBag.Position + 1)"
+                       asp-route-id="@ViewBag.Next">
+                        <i class="fas fa-step-forward"></i> Next
+                    </a>
+            }
+        </div>
+    </div>
+
+    <div class="row justify-content-sm-center">
+        <div class="col-sm-2">
+            Ime:
+        </div>
+        <div class="col-sm-6">
+            @Model.Partner.Ime
+        </div>
+    </div>
+
+    <div class="row justify-content-sm-center">
+        <div class="col-sm-2">
+            Broj mobitela:
+        </div>
+        <div class="col-sm-6">
+            @Model.Partner.BrMob
+        </div>
+    </div>
+
+    <div class="row justify-content-sm-center">
+        <div class="col-sm-2">
+            E-Mail:
+        </div>
+        <div class="col-sm-6">
+            @Model.Partner.Email
+        </div>
+    </div>
+
+    <div class="row justify-content-sm-center">
+        <div class="col-sm-2">
+            OIB:
+        </div>
+        <div class="col-sm-6">
+            @Model.Partner.Oib
+        </div>
+    </div>
+
+    <div class="row justify-content-sm-center">
+        <div class="col-sm-2">
+            IBAN:
+        </div>
+        <div class="col-sm-6">
+            @Model.Partner.IbanOsoba
+        </div>
+    </div>
+
+    <div class="row">
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    @{
+                        string[] nazivi = { "Opis zahtijeva", "Prioritet", "Vrsta zahtijeva" };
+                        for (int i = 0; i < nazivi.Length; i++)
+                        {
+                            <th class="text-center">
+                                @nazivi[i]
+                            </th>
+                        }
+                    }
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var zahtijev in Model.Zahtijevi)
+                {
+                    <tr>
+                        <td class="text-center col-sm-4">
+                            @zahtijev.OpisZahtijev
+                        </td>
+                        <td class="text-center col-sm-4">
+                            @zahtijev.Prioritet
+                        </td>
+                        <td class="text-center col-sm-4">
+                            @zahtijev.NazivVrsteZahtijeva
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+    <a class="btn btn-sm btn-primary mx-2"
+       asp-route-id="@Model.IdSuradnik"
+       asp-controller="PartnerMasterDetailReport"
+       asp-action="PartnerMD"
+       title="excel">
+        <i class="fas fa-sync-alt"></i>Generate PDF
+    </a>
+    <a class="btn btn-sm btn-success mx-2"
+       asp-route-id="@Model.IdSuradnik"
+       asp-controller="PartnerReport"
+       asp-action="PartnerMasterDetailExcel"
+       title="excel">
+        <i class="fas fa-sync-alt"></i>Generate Excel
+    </a>
+</div>

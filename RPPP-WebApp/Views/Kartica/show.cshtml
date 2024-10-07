@@ -1,0 +1,137 @@
+﻿@model KarticaViewModel
+@{
+    ViewBag.Title = @Model.BrRacuna;
+}
+
+<div class="container">
+    <div class="row text-left">
+        <div class="col-sm-12">
+            <a class="btn btn-sm btn-primary mb-3" asp-action="Index" asp-controller="Kartica"
+               asp-route-page="@ViewBag.Page"
+               asp-route-sort="@ViewBag.Sort"
+               asp-route-ascending="@ViewBag.Ascending">
+                <i class="fas fa-arrow-left"></i> Go back
+
+
+            </a>
+        </div>
+    </div>
+    <div class="row text-center">
+        <div class="col-sm-2">
+            @if (ViewBag.Previous != null)
+            {
+                <a class="btn btn-primary"
+                   asp-action="Show"
+                   asp-route-page="@ViewBag.Page"
+                   asp-route-sort="@ViewBag.Sort"
+                   asp-route-ascending="@ViewBag.Ascending"
+                   asp-route-position="@(ViewBag.Position - 1)"
+                   asp-route-id="@ViewBag.Previous">
+                    <i class="fas fa-step-backward">Previous</i>
+                </a>
+            }
+        </div>
+        <div class="col-sm-8">
+            <h4>
+                @Model.BrRacuna
+            </h4>
+        </div>
+        <div class="col-sm-2">
+            @if (ViewBag.Next != null)
+            {
+                <a class="btn btn-primary" asp-action="Show"
+                   asp-route-page="@ViewBag.Page"
+                   asp-route-sort="@ViewBag.Sort"
+                   asp-route-ascending="@ViewBag.Ascending"
+                   asp-route-position="@(ViewBag.Position + 1)"
+                   asp-route-id="@ViewBag.Next">
+                    <i class="fas fa-step-forward">Next</i>
+                </a>
+            }
+        </div>
+    </div>
+
+    <div class="row justify-content-sm-center">
+        <div class="col-sm-2">
+            Br racuna:
+        </div>
+        <div class="col-sm-6">
+            @Model.BrRacuna
+        </div>
+    </div>
+
+    <div class="row justify-content-sm-center">
+        <div class="col-sm-2">
+            Stanje:
+        </div>
+        <div class="col-sm-6">
+            @Model.Stanje
+        </div>
+    </div>
+
+    <div class="row justify-content-sm-center">
+        <div class="col-sm-2">
+            id projekt:
+        </div>
+        <div class="col-sm-6">
+            @Model.IdProjekt
+        </div>
+    </div>
+
+    <div class="row justify-content-sm-center">
+        <div class="col-sm-2">
+            Naziv projekta:
+        </div>
+        <div class="col-sm-6">
+            @Model.NazivProjekt
+        </div>
+    </div>
+
+    <div class="row">
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    @{
+                        string[] imena = { "IdTransakcije", "Iznos", "Opis", "Vrijeme", "Broj racuna", "iban korisnika", "Naziv korisnika", "Vrsta Transakcije" };
+                        for (int i = 0; i < imena.Length; i++)
+                        {
+                            <th class="text-center">
+                                @imena[i]
+                            </th>
+                        }
+                    }
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var transakcija in Model.Transakcijas)
+                {
+                    <tr>
+                        <td class="text-center col-sm-4">
+                            @transakcija.IdTransakcija
+                        </td>
+                        <td class="text-center col-sm-4">
+                            @transakcija.Iznos
+                        </td>
+                        <td class="text-center col-sm-4">
+                            @transakcija.OpisTrans
+                        </td>
+                        <td class="text-center col-sm-4">
+                            @transakcija.BrRacuna
+                        </td>
+                        <td class="text-center col-sm-4">
+                            @transakcija.IbanKorisnik
+                        </td>
+                        <td class="text-center col-sm-4">
+                            @transakcija.IbanKorisnikNavigation.NazivKorisnik
+                        </td>
+                        <td class="text-center col-sm-4">
+                            @transakcija.IdVrstaTransNavigation.NazivVrstaTrans
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+

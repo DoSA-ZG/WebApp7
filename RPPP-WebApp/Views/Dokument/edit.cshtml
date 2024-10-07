@@ -1,0 +1,57 @@
+@using System.Text
+
+@model Dokument
+
+<h2>Ažuriranje dokumenta</h2>
+
+<form asp-route-id="@Model.IdDoc"
+      asp-route-page="@ViewBag.Page"
+      asp-route-sort="@ViewBag.Sort"
+      asp-route-ascending="@ViewBag.Ascending"
+      asp-route-isEdit="false"
+      method="post"
+      enctype="multipart/form-data">
+    <div asp-validation-summary="All"></div>
+    <input type="hidden" asp-for="IdDoc" />
+    <div class="mb-3">
+        <label asp-for="NazivDokument"></label>
+        <div><span asp-validation-for="NazivDokument" class="text-danger"></span></div>
+        <input asp-for="NazivDokument" class="form-control" />
+    </div>
+    <div class="mb-3">
+        <label asp-for="NazivDatoteke" class="form-label"></label>
+        <input asp-for="NazivDatoteke" class="form-control" />
+        <div class="form-text"><span asp-validation-for="NazivDatoteke" class="text-danger"></span></div>
+    </div>
+    <div class="mb-3">
+        <label asp-for="IdVrsta" class="form-label"></label>
+        <select class="form-control" asp-for="IdVrsta" asp-items="ViewBag.VrsteDokumenata">
+            <option disabled selected value="">Odaberite vrstu dokumenta</option>
+        </select>
+        <div class="form-text"><span asp-validation-for="IdVrsta" class="text-danger"></span></div>
+    </div>
+    <div class="mb-3">
+        <label asp-for="IdProjekt" class="form-label"></label>
+        <select class="form-control" asp-for="IdProjekt" asp-items="ViewBag.NaziviProjekata">
+            <option disabled selected value="">Odaberite projekt</option>
+        </select>
+        <div class="form-text"><span asp-validation-for="IdProjekt" class="text-danger"></span></div>
+    </div>
+    <div class="mb-3">
+        <label asp-for="UploadedFile" class="form-label"></label>
+        <input asp-for="UploadedFile" type="file" class="form-control" />
+        <div class="form-text"><span asp-validation-for="UploadedFile" class="text-danger"></span></div>
+    </div>
+     <div class="text-center">
+        <button class="btn btn-primary" type="submit">Spremi</button>
+        <a asp-action="Index"
+           asp-route-page="@ViewBag.Page"
+           asp-route-sort="@ViewBag.Sort"
+           asp-route-ascending="@ViewBag.Ascending"
+           class="btn btn-secondary">Odustani</a>
+    </div>
+</form>
+
+@section scripts {
+    <partial name="IncludeValidation" />
+}

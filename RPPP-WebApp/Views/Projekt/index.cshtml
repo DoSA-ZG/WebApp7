@@ -1,0 +1,78 @@
+@model RPPP_WebApp.ViewModels.ProjektiViewModel
+
+<h1>Popis Projekata</h1>
+
+<a asp-action="Create">Unos novog projekta</a>
+
+<pager page-info="@Model.PagingInfo" page-action="Index" page-title="Unesite željenu stranicu"
+     class="float-end">
+</pager>
+
+<div>
+    <a  asp-controller="ProjektReport" asp-action="ProjektiPdf" class="btn btn-primary">Export to PDF</a>
+    <a  asp-controller="ProjektMasterDetailReport" asp-action="ProjektiPdf" class="btn btn-primary">Export Master Detail to PDF</a>
+    <a  asp-controller="ProjektReport" asp-action="ProjektiExcel" class="btn btn-success">Export to Excel</a>
+    <a  asp-controller="ProjektMasterDetailReport" asp-action="ProjektiExcel" class="btn btn-success">Export Master Detail to Excel</a>
+</div>
+
+<div id="upload row">
+    <form class="form-inline" asp-controller="ProjektMasterDetailReport" asp-action="ImportProjekti" method="post" enctype="multipart/form-data">
+        <div class="row">
+            <div class="form-group col-xs-6 col-md-3 ">
+                <label for="importFile">Uvoz podataka u excel formatu za projekte</label>
+                <input type="file" class="form-control" id="importFile" name="importFile" data-save="">
+            </div>
+            <div class="form-group">
+                <label for="submit"></label>
+                <input type="submit" id="submit" value="Uvezi">
+            </div>
+        </div>
+    </form>
+</div>
+
+<table class="table">
+    <thead>
+        <tr>
+            @{
+                string[] nazivi = { "Id projekta", "Naziv projekta", "Kratica", "Cilj", "Vrsta projekta", "Dokumenti"};
+                for (int i = 1; i <= nazivi.Length; i++)
+                {
+                    <th>
+                        <a asp-route-sort="@i"
+                           asp-route-page="@Model.PagingInfo.CurrentPage"
+                           asp-route-ascending="@(Model.PagingInfo.Sort == i ? !Model.PagingInfo.Ascending : true)">
+                           @nazivi[i - 1]
+                        </a>
+                    </th>
+                }
+            }
+            <th class="text-center">Edit</th>
+            <th class="text-center">Remove</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var projekt in Model.Projekti)
+        {
+            <partial name="Get" model="projekt" asp-route-id="@projekt.IdProjekta" 
+                asp-route-page="@Model.PagingInfo.CurrentPage" 
+                asp-route-sort="@Model.PagingInfo.Sort" 
+                asp-route-ascending="@Model.PagingInfo.Ascending" />
+        }
+    </tbody>
+</table>
+
+@section scripts {
+   <script src="https://cdn.jsdelivr.net/npm/pdfmake@5.0.2/build/pdfmake.min.js"></script>
+   <script src="https://cdn.jsdelivr.net/npm/pdfmake@5.0.2/build/vfs_fonts.js"></script>
+   <script src="~/lib/htmx/htmx.min.js" asp-append-version="true"></script>
+   <partial name="IncludeValidation" />
+
+  <script>
+    document.body.addEventListener("showMessage", function(evt){     
+       toastr[evt.detail.messageType](evt.detail.message);
+    }) 
+    document.body.addEventListener("htmx:responseError", function (evt) {
+        toastr["error"](evt.detail.error);
+    })
+  </script>
+}

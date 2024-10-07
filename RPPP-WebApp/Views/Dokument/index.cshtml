@@ -1,0 +1,109 @@
+@using System.Text
+
+@model RPPP_WebApp.ViewModels.DokumentiViewModel
+@{
+    int page = Model.PagingInfo.CurrentPage;
+    int sort = Model.PagingInfo.Sort;
+    bool ascending = Model.PagingInfo.Ascending;
+}
+
+<h1>Popis Dokumenata</h1>
+
+<a asp-action="Create">Unos novog dokumenta</a>
+
+<pager page-info="@Model.PagingInfo" page-action="Index" page-title="Unesite željenu stranicu"
+     class="float-end">
+</pager>
+
+<div>
+    <a  asp-controller="DokumentReport" asp-action="DokumentiPdf" class="btn btn-primary">Export to PDF</a>
+    <a  asp-controller="DokumentReport" asp-action="DokumentiExcel" class="btn btn-success">Export to Excel</a>
+</div>
+
+<div id="upload row">
+    <form class="form-inline" asp-controller="DokumentReport" asp-action="ImportDokumenti" method="post" enctype="multipart/form-data">
+        <div class="row">
+            <div class="form-group col-xs-6 col-md-3 ">
+                <label for="importFile">Uvoz podataka u excel formatu za dokument</label>
+                <input type="file" class="form-control" id="importFile" name="importFile" data-save="">
+            </div>
+            <div class="form-group">
+                <label for="submit"></label>
+                <input type="submit" id="submit" value="Uvezi">
+            </div>
+        </div>
+    </form>
+</div>
+
+<table class="table">
+    <thead>
+      <tr>
+        @{
+            string[] nazivi = { "Id dokumenta", "Naziv dokumenta", "Naziv datoteke", "Vrsta", "Projekt"};
+            for (int i = 1; i <= nazivi.Length; i++)
+            {
+            <th>
+                <a asp-route-sort="@i"
+                   asp-route-page="@Model.PagingInfo.CurrentPage"
+                   asp-route-ascending="@(Model.PagingInfo.Sort == i ? !Model.PagingInfo.Ascending : true)">
+                @nazivi[i - 1]
+                </a>
+            </th>
+            }
+        }
+        <th class="text-center">Dokument</th>
+        <th class="text-center">Edit</th>
+        <th class="text-center">Remove</th>
+      </tr>
+    </thead>
+    <tbody>
+        @foreach (var dokument in Model.Dokumenti)
+        {
+           <tr hx-target="this" hx-swap="outerHTML">
+            <td class="text-left">@dokument.IdDoc</td>
+            <td class="text-left">@dokument.NazivDokument</td>
+            <td class="text-left">@dokument.NazivDatoteke</td>
+            <td class="text-left">@dokument.IdVrstaNavigation.NazivVrstaDoc</td>
+            <td class="text-left">@dokument.IdProjektNavigation.NazivProjekt</td>
+            <td>
+                @if (dokument.Dokument1 != null)
+                {
+                    var dokumentText = Encoding.UTF8.GetString(dokument.Dokument1);
+                    <span>@dokumentText</span>
+                }
+                else
+                {
+                    <span>Nema dostupnog dokumenta</span>
+                }
+            </td>
+            <td class="text-center"> 
+                <a class="btn btn-sm d-flex justify-content-center"
+                  href="@Url.Action(nameof(DokumentController.Edit), new {
+                    id = dokument.IdDoc, page , sort, ascending})"
+                  title="Ažuriraj"><i class="fas fa-edit"></i>✏️</a>
+            </td>
+            <td class="text-center"> 
+                <a class="btn btn-sm btn-danger d-flex justify-content-center"
+                  hx-confirm="Obrisati projekt?"
+                  hx-delete="@Url.Action(nameof(DokumentController.Delete), new { id = dokument.IdDoc })"
+                  title="Obriši">
+                    <i class="fas fa-trash-alt">🗑️</i>
+            </td>
+        </tr>
+        }
+    </tbody>
+</table>
+
+@section scripts {
+  <script src="~/lib/htmx/htmx.min.js" asp-append-version="true"></script> 
+  <partial name="IncludeValidation" />
+
+  <script>
+    document.body.addEventListener("showMessage", function(evt){     
+       toastr[evt.detail.messageType](evt.detail.message);
+    })
+    document.body.addEventListener("htmx:responseError", function (evt) {
+        toastr["error"](evt.detail.error);
+    })
+  </script>
+}

@@ -1,0 +1,71 @@
+﻿@model Transakcija
+
+<h2>Izmjena podatka</h2>
+
+<hr />
+
+<form asp-action="Edit" method="POST"
+      asp-route-sort="@ViewBag.PagingInfo.Sort"
+      asp-route-page="@ViewBag.PagingInfo.CurrentPage"
+      asp-route-ascending="@ViewBag.PagingInfo.Ascending">
+    <div asp-validation-summary="All"></div>
+
+    <div class="mb-3">
+        <label asp-for="OpisTrans" class="form-label">Opis transakcije</label>
+        <input asp-for="OpisTrans" class="form-control" />
+        <span asp-validation-for="OpisTrans" class="form-text text-danger"></span>
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="Vrijeme" class="form-label">Vrijeme</label>
+        <input asp-for="Vrijeme" class="form-control" />
+        <span asp-validation-for="Vrijeme" class="form-text text-danger"></span>
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="Iznos" class="form-label">Iznos</label>
+        <input asp-for="Iznos" class="form-control" />
+        <span asp-validation-for="Iznos" class="form-text text-danger"></span>
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="IbanKorisnikNavigation.NazivKorisnik" class="form-label">Naziv korinsika</label>
+        <input asp-for="IbanKorisnikNavigation.NazivKorisnik" class="form-control" />
+        <span asp-validation-for="IbanKorisnikNavigation.NazivKorisnik" class="form-text text-danger"></span>
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="IbanKorisnik" class="form-label">iban korinsika</label>
+        <input asp-for="IbanKorisnik" class="form-control" />
+        <span asp-validation-for="IbanKorisnik" class="form-text text-danger"></span>
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="BrRacuna" class="form-label">Odaberite broj racuna</label>
+        <select class="form-control" asp-for="BrRacuna" asp-items="ViewBag.BrRacuna">
+            <option disabled selected value="">Odaberite br racuna</option>
+        </select>
+        <span asp-validation-for="BrRacuna" class="form-text text-danger"></span>
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="IdVrstaTrans" class="form-label">Odaberite transakciju</label>
+        <select class="form-control" asp-for="IdVrstaTrans" asp-items="ViewBag.IdVrstaTrans">
+            <option disabled selected value="">Odaberite transakciju</option>
+        </select>
+        <span asp-validation-for="IdVrstaTrans" class="form-text text-danger"></span>
+    </div>
+
+    <div class="text-center">
+        <button class="btn btn-primary" type="submit">Spremi</button>
+        <a asp-action="Index"
+           asp-route-sort="@ViewBag.PagingInfo.Sort"
+           asp-route-page="@ViewBag.PagingInfo.CurrentPage"
+           asp-route-ascending="@ViewBag.PagingInfo.Ascending"
+           class="btn btn-secondary">Odustani</a>
+    </div>
+</form>
+
+@section scripts {
+    <partial name="IncludeValidation" />
+}

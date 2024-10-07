@@ -1,0 +1,53 @@
+﻿@model TransakcijeViewModel
+
+<h1>Popis transakcija</h1>
+
+<a asp-action="Create">Unos nove transakcije</a>
+
+<pager page-info="@Model.PagingInfo" page-action="Index" page-title="Unesite željenu stranicu"
+       class="float-end">
+</pager>
+
+<table class="table">
+    <thead>
+        <tr>
+            @{
+                string[] nazivi = { "IdTransakcije", "Iznos", "Opis", "Vrijeme", "Broj racuna","iban korisnika", "Naziv korisnika", "Vrsta Transakcije" };
+                for (int i = 1; i <= nazivi.Length; i++)
+                {
+                    <th>
+                        <a asp-route-sort="@i"
+                           asp-route-page="@Model.PagingInfo.CurrentPage"
+                           asp-route-ascending="@(Model.PagingInfo.Sort == i ? !Model.PagingInfo.Ascending : true)">
+                            @nazivi[i - 1]
+                        </a>
+                    </th>
+                }
+            }
+            <th class="text-center">Edit</th>
+            <th class="text-center">Remove</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var transakcija in Model.Transakcije)
+        {
+            <partial name="Get" model="transakcija"/>
+        }
+    </tbody>
+</table>
+
+@section scripts {
+    <script src="~/js/pager.js" asp-append-version="true"></script>
+    <script src="~/lib/htmx/htmx.min.js" asp-append-version="true"></script>
+    <partial name="IncludeValidation" />
+
+    <script>
+        document.body.addEventListener("showMessage", function (evt) {
+            toastr[evt.detail.messageType](evt.detail.message);
+        })
+        document.body.addEventListener("htmx:responseError", function (evt) {
+            toastr["error"](evt.detail.error);
+        })
+    </script>
+}
+

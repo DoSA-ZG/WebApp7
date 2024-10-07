@@ -1,0 +1,160 @@
+﻿@model PartnerViewModel
+
+<h2>Izmjena partnera</h2>
+
+<hr />
+
+<div class="container">
+    <form id="partner_form" method="POST" asp-action="Edit"
+            asp-route-page="@ViewBag.Page"
+            asp-route-sort="@ViewBag.Sort"
+            asp-route-ascending="@ViewBag.Ascending">
+            <input type="hidden" />
+        <div asp-validation-summary="All" class="form-group row"></div>
+        <div class="row">
+            <div class="col-sm-2">
+                <b><label class="form-label">Partner</label></b>
+                @{
+                    string value = Model.Partner != null ? Model.Partner.Ime : "";
+                    <input class="form-control" name="Ime" asp-for="@Model.Partner.Ime" type="text" data-autocomplete="Partner" data-autocomplete-placeholder-name="idPartner" value="@value" />
+                }
+                <input id="novi-partner" type="hidden" data-autocomplete-placeholder="idPartner" readonly="readonly" asp-for="IdSuradnik" />
+                <input id="stari-partner" type="hidden" readonly="readonly" asp-for="IdSuradnik" />
+                <div class="form-text"><span asp-validation-for="@Model.Partner.Ime" class="text-danger"></span></div>
+            </div>
+        </div>
+
+        <div class="d-flex justify-content-center m-3">
+            <button id="save" type="submit" class="btn btn-sm btn-primary save mx-2 edit-partner" title="Spremi"><i class="fas fa-save"></i>Spremi</button>
+            <a class="btn btn-sm btn-primary cancel mx-2"
+                asp-action="Edit"
+                asp-route-id="@Model.IdSuradnik"
+                asp-route-page="@ViewBag.Page"
+                asp-route-sort="@ViewBag.Sort"
+                asp-route-ascending="@ViewBag.Ascending"
+                title="Osvježi">
+                <i class="fas fa-sync-alt"></i>Osvježi
+            </a>
+            <a class="btn btn-sm btn-primary cancel mx-2"
+                asp-action="Index"
+                asp-route-page="@ViewBag.Page"
+                asp-route-sort="@ViewBag.Sort"
+                asp-route-ascending="@ViewBag.Ascending"
+                title="Odustani">
+				<i class="fas fa-undo-alt"></i>Odustani
+            </a>
+            <a class="btn btn-sm btn-danger delete-partner mx-2"
+                asp-action="Delete"
+                asp-route-id="@Model.IdSuradnik"
+                asp-route-page="@ViewBag.Page"
+                asp-route-sort="@ViewBag.Sort"
+                asp-route-ascending="@ViewBag.Ascending"
+                title="Obriši partnera">
+                <input type="hidden" name="IdSuradnik" value="@Model.IdSuradnik" />
+				<i class="fas fa-trash-alt"></i>Obriši
+            </a>
+        </div>
+
+        <hr />
+
+        <table class="table table-sm table-striped table-hover" id="table-zahtijevi">
+            <thead>
+                <tr>
+                    @{
+                        string[] nazivi = { "ID zahtjeva", "Opis zahtjeva", "Prioritet", "Vrsta zahtjeva" };
+                        for (int i = 0; i < nazivi.Length; i++)
+                        {
+                            <th class="text-center">
+                                @nazivi[i]
+                            </th>
+                        }
+                    }
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                @{
+                    foreach(var zahtijev in Model.Zahtijevi)
+                    {  
+                        <tr>
+                            <td class="text-center">
+                                <input type="hidden" name="Zahtijevi.Index" value="@zahtijev.IdZah" />
+                                <input type="hidden" name="Zahtijevi[@zahtijev.IdZah].IdZah" value="@zahtijev.IdZah" />
+                                <div>@zahtijev.IdZah</div>
+                            </td>
+                            <td class="text-left">
+                                <input name="Zahtijevi[@zahtijev.IdZah].OpisZahtijev" class="form-control" value="@zahtijev.OpisZahtijev" />
+                                <div class="form-text"><span asp-validation-for="@zahtijev.OpisZahtijev" class="text-danger"></span></div>
+                            </td>
+                            <td class="text-left">
+                                <input name="Zahtijevi[@zahtijev.IdZah].Prioritet" class="form-control" data-autocomplete="Prioritet" value="@zahtijev.Prioritet" />
+                                <div class="form-text"><span asp-validation-for="@zahtijev.Prioritet" class="text-danger"></span></div>
+                            </td>
+                            <td class="text-left">
+                                <input name="Zahtijevi[@zahtijev.IdZah].NazivVrsteZahtijeva" class="form-control" data-autocomplete="VrstaZahtijev" value="@zahtijev.NazivVrsteZahtijeva" />
+                                <div class="form-text"><span asp-validation-for="@zahtijev.NazivVrsteZahtijeva" class="text-danger"></span></div>
+                            </td>
+                            <td>
+                                <button class="btn btn-sm btn-danger deleterow" type="submit" title="Izbaci"><i class="fa fa-minus"></i>Obriši</button>
+                            </td>
+                        </tr>
+                    }
+                    <tr>
+                        <td class ="text-center">
+                            <input type="hidden" readonly="readonly" />
+                        </td>
+                        <td class="text-left">
+                            <input id="opis-zahtijev" class="form-control" type="text" placeholder="Opis zahtjeva" />
+                        </td>
+                        <td class="text-left">
+                            <input id="prioritet" class="form-control" type="text" data-autocomplete="Prioritet" placeholder="Prioritet" />
+                        </td>
+                        <td class="text-left">
+                            <input id="vrsta-zahtijev" class="form-control" type="text" data-autocomplete="VrstaZahtijev" placeholder="Vrsta zahtijeva" />
+                        </td>
+                        <td class="text-left" colspan="3">
+                            <button id="zahtijev-dodaj" class="btn btn-sm btn-secondary" title="Dodaj"><i class="fa fa-plus"></i>Dodaj</button>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </form>
+
+    <div id="validation-message" class="form-group row"></div>
+
+    <input type="hidden" id="zahtijev-id"  value="0" />
+
+    ﻿<table id="template" style="visibility:hidden">
+        <tr>
+            <td class="text-center">
+                <input type="hidden" name="Zahtijevi.Index" value="--id--" />
+                <input type="hidden" name="Zahtijevi[--id--].IdZah" value="--id--" />
+                <div></div>
+            </td>
+            <td class="text-left">
+                <input name="Zahtijevi[--id--].OpisZahtijev" class="form-control" value="--opis-zahtijev--" />
+            </td>
+            <td class="text-left">
+                <input name="Zahtijevi[--id--].Prioritet" class="form-control" data-autocomplete="Prioritet" value="--prioritet--" />
+            </td>
+            <td class="text-left">
+                <input name="Zahtijevi[--id--].NazivVrsteZahtijeva" class="form-control" data-autocomplete="VrstaZahtijev" value="--vrsta-zahtijev--" />
+            </td>
+            <td>
+                <button class="btn btn-sm btn-danger deleterow" type="submit" title="Izbaci"><i class="fa fa-minus"></i>Obriši</button>
+            </td>
+        </tr>
+    </table>
+</div>
+
+@section styles{
+    <link rel="stylesheet" href="~/lib/jqueryui/themes/base/jquery-ui.css" />
+}
+
+@section scripts{
+    <partial name="IncludeValidation" />
+    <script src="~/lib/jqueryui/jquery-ui.js"></script>
+    <script src="~/js/autocomplete.js" asp-append-version="true"></script>
+    <script src="~/js/partner.js" asp-append-version="true"></script>
+}

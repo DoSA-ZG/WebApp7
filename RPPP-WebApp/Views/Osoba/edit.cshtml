@@ -1,0 +1,50 @@
+@model Osoba
+
+<h2>Izmjena podatka</h2>
+
+<hr />
+
+<form asp-action="EditPost" method="POST"
+      asp-route-id="@Model.IdSuradnik"
+      asp-route-sort="@ViewBag.PagingInfo.Sort"
+      asp-route-page="@ViewBag.PagingInfo.CurrentPage"
+      asp-route-ascending="@ViewBag.PagingInfo.Ascending">
+    <div asp-validation-summary="All"></div>
+    <div class="mb-3">
+        <label asp-for="Ime" class="form-label"></label>
+        <input asp-for="Ime" class="form-control" />
+        <div class="form-text"><span asp-validation-for="Ime" class="text-danger"></span></div>
+    </div>
+    <div class="mb-3">
+        <label asp-for="Email" class="form-label"></label>
+        <input asp-for="Email" class="form-control" />
+        <div class="form-text"><span asp-validation-for="Email" class="text-danger"></span></div>
+    </div>
+    <div class="mb-3">
+        <label asp-for="Oib" class="form-label"></label>
+        <input asp-for="Oib" class="form-control" />
+        <div class="form-text"><span asp-validation-for="Oib" class="text-danger"></span></div>
+    </div>
+   <div class="mb-3">
+        <label asp-for="BrMob" class="form-label"></label>
+        <input asp-for="BrMob" class="form-control" />
+        <div class="form-text"><span asp-validation-for="BrMob" class="text-danger"></span></div>
+    </div>
+    <div class="mb-3">
+        <label asp-for="IbanOsoba" class="form-label"></label>
+        <input asp-for="IbanOsoba" class="form-control" />
+        <div class="form-text"><span asp-validation-for="IbanOsoba" class="text-danger"></span></div>
+    </div>
+    <div class="text-center">
+        <button class="btn btn-primary" type="submit">Spremi</button>
+        <a asp-action="Index"
+           asp-route-sort="@ViewBag.PagingInfo.Sort"
+           asp-route-page="@ViewBag.PagingInfo.CurrentPage"
+           asp-route-ascending="@ViewBag.PagingInfo.Ascending"
+           class="btn btn-secondary">Odustani</a>
+    </div>
+</form>
+
+@section scripts {
+    <partial name="IncludeValidation" />
+}

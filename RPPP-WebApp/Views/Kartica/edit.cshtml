@@ -1,0 +1,35 @@
+﻿@model Kartica
+
+<h2>Izmjena podatka</h2>
+
+<hr />
+
+<form asp-action="EditPost" method="POST"
+      asp-route-id="@Model.BrRacuna"
+      asp-route-sort="@ViewBag.PagingInfo.Sort"
+      asp-route-page="@ViewBag.PagingInfo.CurrentPage"
+      asp-route-ascending="@ViewBag.PagingInfo.Ascending">
+    <div asp-validation-summary="All"></div>
+    <div class="mb-3">
+        <label asp-for="BrRacuna" class="form-label"></label>
+        <input asp-for="BrRacuna" class="form-control" />
+        <div class="form-text"><span asp-validation-for="BrRacuna" class="text-danger"></span></div>
+    </div>
+    <div class="mb-3">
+        <label asp-for="Stanje" class="form-label"></label>
+        <input asp-for="Stanje" class="form-control" />
+        <div class="form-text"><span asp-validation-for="Stanje" class="text-danger"></span></div>
+    </div>
+    <div class="text-center">
+        <button class="btn btn-primary" type="submit">Spremi</button>
+        <a asp-action="Index"
+           asp-route-sort="@ViewBag.PagingInfo.Sort"
+           asp-route-page="@ViewBag.PagingInfo.CurrentPage"
+           asp-route-ascending="@ViewBag.PagingInfo.Ascending"
+           class="btn btn-secondary">Odustani</a>
+    </div>
+</form>
+
+@section scripts {
+    <partial name="IncludeValidation" />
+}

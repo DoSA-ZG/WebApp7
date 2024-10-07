@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no" />
+
+  <title>RPPP Homework</title>
+  <link rel="stylesheet" href="~/lib/bootstrap/css/bootstrap.min.css" asp-append-version="true" />
+  <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+  <link rel="stylesheet" href="~/lib/toastr.js/toastr.min.css" />
+  <link rel="stylesheet" href="~/css/site.css" />
+
+  <script src="~/lib/htmx/htmx.min.js" asp-append-version="true"></script>
+  @RenderSection("styles", required: false)
+</head>
+<body>
+  <partial name="_Nav" />
+
+  <div class="container body-container">
+    @RenderBody()
+    <div>
+      <div id = "tempmessage" class="alert"></div>
+    </div>
+  </div>
+
+  <script>
+    window.applicationBaseUrl = '@Url.Content("~/")';
+  </script>
+
+  <script src="~/lib/jquery/jquery.min.js" asp-append-version="true"></script>
+  <script src="~/lib/bootstrap/js/bootstrap.bundle.min.js" asp-append-version="true"></script>
+  <script src="~/lib/toastr.js/toastr.min.js" asp-append-version="true"></script>
+  <script>
+    toastr.options = {      
+      positionClass: "toast-bottom-right"      
+    };
+  </script>
+  <script src="~/js/site.js" asp-append-version="true"></script>
+  @{
+    var successMessage = TempData[Constants.Message] as string;
+    if (!string.IsNullOrEmpty(successMessage))
+    {
+      <script>console.log('@successMessage');</script>
+      <script>toastr.success('@successMessage}');</script>
+    }
+    TempData.Remove(Constants.Message);
+  }
+
+  <partial name="HandleMessage" />
+
+  @RenderSection("scripts", required: false)
+</body>
+</html>
